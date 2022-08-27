@@ -4,7 +4,7 @@
 
  Both `FlowLayout` and `SelectableFlowLayout` are available for use in this package
 
-##FlowLayout
+## FlowLayout
  
 A collection that can arrange custom components using a directional flow according to the available space. It takes an array of `Hashable` elements and a `@ViewBuilder` to provide the a custom component to display for each item in the array.
 
@@ -30,6 +30,10 @@ ScrollView {
   })
 }
 ```
+
+### Example
+
+![image](https://user-images.githubusercontent.com/20460404/187035204-80ff6150-9643-4a79-a11e-e2139589ebfc.png)
 
 ## SelectableFlowLayout
 
@@ -74,6 +78,23 @@ ScrollView {
 }
 ```
 
+### Example
+
+![image](https://user-images.githubusercontent.com/20460404/187035225-87fe68ff-f724-46dd-88fa-c5899d7f43f8.png)
+
 ## Toggle Styles
 
 Ideally, a _selectable_ component can be represented with a SwiftUI `Toggle`. Each Swift `Toggle` view can be customized using `ToggleStyle` protocol. This package offers a `CapsuleToggleStyle` as an example of use.
+
+### Example 
+
+![image](https://user-images.githubusercontent.com/20460404/187035265-18cd511b-5f15-4777-abaf-ee230efb799d.png)
+
+## The point
+
+A personal project requires a selectable collection of ingredients which inspired this component. Example: 
+
+https://user-images.githubusercontent.com/20460404/187035143-6b6dbcc9-fcb0-40b1-92c3-76fa84602a53.mov
+
+
+

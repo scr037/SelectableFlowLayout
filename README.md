@@ -94,5 +94,9 @@ Ideally, a _selectable_ component can be represented with a SwiftUI `Toggle`. Ea
 
 A personal project requires a selectable collection of ingredients which inspired this component.
 
+https://user-images.githubusercontent.com/20460404/190920930-9b9efb60-c5fb-4c9f-b02e-907e02d0460a.mov
+
+
+
 
 

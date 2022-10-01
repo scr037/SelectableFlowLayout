@@ -23,7 +23,7 @@ public struct SelectableFlowLayout<Content: View>: View {
   }
 
   public var body: some View {
-    FlowLayout(items: elements, content: { element in
+    FlowLayout(items: elements) { element in
       Button(
         action: {
           if selectedElements.contains(element) {
@@ -45,15 +45,12 @@ public struct SelectableFlowLayout<Content: View>: View {
         }
       )
       .buttonStyle(.plain)
-    })
-  }
-}
-
-extension Array where Element == String {
-  fileprivate mutating func appendUniqueElements(_ otherArray: [String]) {
-    for s in otherArray {
-      if self.contains(s) == false {
-        self.append(s)
+    }
+    .onAppear {
+      if isShowSelectionOnTop {
+        var temp = $selectedElements.wrappedValue
+        temp.appendUniqueElements($elements.wrappedValue)
+        $elements.wrappedValue = temp
       }
     }
   }

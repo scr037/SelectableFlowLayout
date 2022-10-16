@@ -16,7 +16,7 @@ public struct SelectableHScrollView<Content: View>: View {
     elements: Binding<[String]>,
     selectedElements: Binding<[String]>,
     showsSelectionOnTop: Bool = true,
-    animation: Animation = .easeIn(duration: 0.05),
+    animation: Animation = .easeInOut(duration: 0.5),
     mainQueue: AnySchedulerOf<DispatchQueue>,
     content: @escaping (String, Bool) -> Content
   ) {
@@ -55,6 +55,7 @@ public struct SelectableHScrollView<Content: View>: View {
                     element,
                     $selectedElements.wrappedValue.contains(element)
                   )
+                  .padding(4)
                 }
               )
               .animation(animation, value: elements)

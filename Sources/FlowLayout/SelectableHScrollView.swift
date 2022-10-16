@@ -1,9 +1,11 @@
 import SwiftUI
+import CombineSchedulers
 
 public struct SelectableHScrollView<Content: View>: View {
   // Configuration
   private var isShowSelectionOnTop: Bool
   private var animation: Animation?
+  private var mainQueue: AnySchedulerOf<DispatchQueue>
 
   // Content
   @Binding private var elements: [String]
@@ -14,43 +16,50 @@ public struct SelectableHScrollView<Content: View>: View {
     elements: Binding<[String]>,
     selectedElements: Binding<[String]>,
     showsSelectionOnTop: Bool = true,
-    animation: Animation = .easeIn(duration: 0.2),
+    animation: Animation = .easeIn(duration: 0.05),
+    mainQueue: AnySchedulerOf<DispatchQueue>,
     content: @escaping (String, Bool) -> Content
   ) {
     self._elements = elements
     self._selectedElements = selectedElements
     self.isShowSelectionOnTop = showsSelectionOnTop
     self.animation = animation
+    self.mainQueue = mainQueue
     self.content = content
   }
 
   public var body: some View {
     VStack {
-      ScrollView(.horizontal, showsIndicators: false) {
-        LazyHStack {
-          ForEach(elements, id: \.self) { element in
-            Button(
-              action: {
-                if selectedElements.contains(element) {
-                  selectedElements.removeAll { $0 == element }
-                } else {
-                  selectedElements.append(element)
+      ScrollViewReader { proxy in
+        ScrollView(.horizontal, showsIndicators: false) {
+          LazyHStack {
+            ForEach(elements, id: \.self) { element in
+              Button(
+                action: {
+                  if selectedElements.contains(element) {
+                    selectedElements.removeAll { $0 == element }
+                  } else {
+                    selectedElements.append(element)
+                  }
+                  if isShowSelectionOnTop {
+                    mainQueue.schedule(after: .init(.now() + 0.1)) {
+                      proxy.scrollTo(element)
+                    }
+                    var temp = selectedElements
+                    temp.appendUniqueElements(elements)
+                    elements = temp
+                  }
+                },
+                label: {
+                  content(
+                    element,
+                    $selectedElements.wrappedValue.contains(element)
+                  )
                 }
-                if isShowSelectionOnTop {
-                  var temp = selectedElements
-                  temp.appendUniqueElements(elements)
-                  elements = temp
-                }
-              },
-              label: {
-                content(
-                  element,
-                  $selectedElements.wrappedValue.contains(element)
-                )
-              }
-            )
-            .animation(animation, value: elements)
-            .buttonStyle(.plain)
+              )
+              .animation(animation, value: elements)
+              .buttonStyle(.plain)
+            }
           }
         }
       }
@@ -72,7 +81,8 @@ struct SelectableHScrollView_Previews: PreviewProvider {
     SelectableHScrollView(
       elements: $elements,
       selectedElements: $selected,
-      showsSelectionOnTop: true
+      showsSelectionOnTop: true,
+      mainQueue: .immediate
     ) { element, isSelected in
       Toggle(element, isOn: .constant(isSelected))
         .environment(\.font, .body)

@@ -20,6 +20,10 @@ let package = Package(
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
       from: "1.9.0"
+    ),
+    .package(
+      url: "https://github.com/pointfreeco/combine-schedulers.git",
+      from: "0.8.0"
     )
   ],
   targets: [
@@ -39,6 +43,7 @@ let package = Package(
       name: "FlowLayout",
       dependencies: [
         .target(name: "ToggleStyles"),
+        .productItem(name: "CombineSchedulers", package: "combine-schedulers"),
       ]
     ),
     .testTarget(

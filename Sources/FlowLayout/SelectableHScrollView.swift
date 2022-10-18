@@ -55,7 +55,7 @@ public struct SelectableHScrollView<Content: View>: View {
                     element,
                     $selectedElements.wrappedValue.contains(element)
                   )
-                  .padding(4)
+                  .padding(.vertical, 4)
                 }
               )
               .animation(animation, value: elements)

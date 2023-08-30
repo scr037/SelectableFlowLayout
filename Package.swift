@@ -19,11 +19,11 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing",
-      from: "1.9.0"
+      from: "1.11.1"
     ),
     .package(
       url: "https://github.com/pointfreeco/combine-schedulers.git",
-      from: "0.8.0"
+      from: "1.0.0"
     )
   ],
   targets: [
